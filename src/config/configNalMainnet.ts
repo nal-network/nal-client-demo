@@ -8,7 +8,7 @@ export const account = privateKeyToAccount("0x480f...faddb");
 
 export const usdtInfo = {
   addrL1 : getAddress("0xdac17f958d2ee523a2206206994597c13d831ec7"),
-  addrL2 : getAddress("0xe4f926348d...92a4ceb9c15")
+  addrL2 : getAddress("0xf10b577addd414ca97731c3ab772cd212813b14d")
 }
 
 const nalRpcUrl = "https://rpc.nal.network";
