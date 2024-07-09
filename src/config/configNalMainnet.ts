@@ -12,16 +12,17 @@ export const usdtInfo = {
 }
 
 const nalRpcUrl = "https://rpc.nal.network";
+const ethRpcUrl = mainnet.rpcUrls.default.http[0];
 
 export const publicClientL1 = createPublicClient({
   chain: mainnet,
-  transport: http()
+  transport: http(ethRpcUrl)
 }).extend(publicActionsL1())
 
 export const walletClientL1 = createWalletClient({
   account,
   chain: mainnet,
-  transport: http()
+  transport: http(ethRpcUrl)
 }).extend(walletActionsL1())
 
 export const publicClientL2 = createPublicClient({
