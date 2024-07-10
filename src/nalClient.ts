@@ -5,6 +5,7 @@ import { parseEther, formatEther, GetTransactionReceiptReturnType, Hash, Withdra
 import { getL2TransactionHashes, GetWithdrawalsReturnType } from 'viem/op-stack'
 import { erc20Abi, getAddress } from 'viem'
 import { l1StandardBridgeABI, l2StandardBridgeABI } from '@eth-optimism/contracts-ts'
+import { digiAbi } from './abibin/digiAbi'
 
 (BigInt.prototype as any).toJSON = function () {
     return this.toString();
@@ -331,6 +332,32 @@ async function faucetUSDT(){
     console.log("Finish L1 USDT faucet TX:" + JSON.stringify(receipt));
 }
 
+async function digiCoin() {
+    const transferAmount = 5000000n;
+    const digiProxy = "0x3201...a95c4bD";
+    const orderId = 123456n;
+    const receiver = "0x5c54E...9A8B";
+    const hash = await walletClientL2.writeContract({
+        abi: erc20Abi,
+        address: usdtInfo.addrL2,
+        functionName: 'approve',
+        args: [digiProxy, transferAmount],
+    });
+    console.log("erc20 approve tx hash: " + hash);
+    const receipt = await publicClientL2.waitForTransactionReceipt({hash});
+    console.log("erc20 tx receipt: " + JSON.stringify(receipt));
+
+    const transferHash = await walletClientL2.writeContract({
+        abi: digiAbi,
+        address: digiProxy,
+        functionName: 'transferFrom',
+        args: [0, orderId, receiver, transferAmount],
+    });
+    console.log("digiCoinColl tx hash: " + transferHash);
+    const transferReceipt = await publicClientL2.waitForTransactionReceipt({hash: transferHash});
+    console.log("digiCoinColl tx receipt: " + JSON.stringify(transferReceipt));
+}
+
 function delay(ms: number){
     return new Promise( resolve => setTimeout(resolve, ms));
 }
@@ -340,7 +367,7 @@ async function main() {
     console.log("L2 blockNumber:"+ await publicClientL2.getBlockNumber());
     
     // await depositETH();
-    await withdrawETH();
+    // await withdrawETH();
 
     // faucetUSDT();
     // await depositERC20();
@@ -348,6 +375,8 @@ async function main() {
 
     // await transferETH(chainType.l2);
     // await transferERC20();
+
+    await digiCoin();
 }
 
 main();
