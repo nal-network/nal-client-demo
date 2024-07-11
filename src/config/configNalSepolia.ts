@@ -3,8 +3,9 @@ import { privateKeyToAccount } from 'viem/accounts'
 import { sepolia, optimismSepolia } from 'viem/chains'
 import { nalSepolia } from './nalSepolia'
 import { publicActionsL1, publicActionsL2, walletActionsL1, walletActionsL2 } from 'viem/op-stack'
+import 'dotenv/config'
 
-export const account = privateKeyToAccount("0x480f...faddb");
+export const account = privateKeyToAccount(process.env.TEST_PRIKEY as `0x${string}`);
 
 export const usdtInfo = {
   addrL1 : getAddress("0x84E7a252AD39Cc9BFcDcB16208c3e912a313be97"),

@@ -301,15 +301,15 @@ async function transferERC20() {
     console.log("Reciever: " + (await publicClientL2.readContract({
         abi: erc20Abi, address: usdtInfo.addrL2, functionName: "balanceOf", args: [reciever]})))
 
-    const hash = await walletClientL2.writeContract({
-        abi: erc20Abi,
-        address: usdtInfo.addrL2,
-        functionName: 'transfer',
-        args: [reciever, 1000000000000000000n],
-    });
-    console.log("erc20 tx hash: " + hash);
-    const receipt = await publicClientL2.waitForTransactionReceipt({hash});
-    console.log("erc20 tx receipt: " + JSON.stringify(receipt));
+    // const hash = await walletClientL2.writeContract({
+    //     abi: erc20Abi,
+    //     address: usdtInfo.addrL2,
+    //     functionName: 'transfer',
+    //     args: [reciever, 1000000000000000000n],
+    // });
+    // console.log("erc20 tx hash: " + hash);
+    // const receipt = await publicClientL2.waitForTransactionReceipt({hash});
+    // console.log("erc20 tx receipt: " + JSON.stringify(receipt));
 
     console.log("after transfer:")
     console.log("Sender: " + (await publicClientL2.readContract({
@@ -374,9 +374,9 @@ async function main() {
     // await withdrawERC20();
 
     // await transferETH(chainType.l2);
-    // await transferERC20();
+    await transferERC20();
 
-    await digiCoin();
+    // await digiCoin();
 }
 
 main();
